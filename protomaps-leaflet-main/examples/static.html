@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/protomaps-leaflet@4.1.1/dist/protomaps-leaflet.js"></script>
+        <!-- <script src="../dist/protomaps-leaflet.js"></script> -->
+        <style>
+            #map {
+                width: 600px;
+                height: 400px;
+                background-color:#eee;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+       <canvas id="map"></canvas>
+       <button id="screenshot">Capture image</button>
+       <span id="zoom"></span>
+       <button id="zoomin">+0.5</button>
+       <button id="zoomout">-0.5</button>
+       <script>
+        let canvas = document.getElementById("map")
+        var zoom = 11
+        let map = new protomapsL.Static({url:"https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=1003762824b9687f",theme:"dark"})
+        let center = {y:37.7658,x:-122.4221}
+        map.drawCanvas(canvas,center,zoom)
+        document.getElementById("zoom").innerHTML = zoom
+
+        document.getElementById("zoomin").addEventListener('click', () => {
+            zoom = zoom + 0.5
+            map.drawCanvas(canvas,center,zoom)
+            document.getElementById("zoom").innerHTML = zoom
+        })
+
+        document.getElementById("zoomout").addEventListener('click', () => {
+            zoom = zoom - 0.5
+            map.drawCanvas(canvas,center,zoom)
+            document.getElementById("zoom").innerHTML = zoom
+        })
+
+        document.getElementById("screenshot").addEventListener('click', () => {
+            window.open().document.write('<iframe src="' + canvas.toDataURL("image/png") + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>')
+        })
+       </script>
+    </body>
+</html>

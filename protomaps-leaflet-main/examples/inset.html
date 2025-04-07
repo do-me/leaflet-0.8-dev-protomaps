@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/protomaps-leaflet@4.1.1/dist/protomaps-leaflet.js"></script>
+        <!-- <script src="../dist/protomaps-leaflet.js"></script> -->
+        <style>
+            #map {
+                width: 800px;
+                height: 600px;
+                opacity: 0;
+                transition: opacity 0.1s;
+            }
+        </style>
+    </head>
+    <body>
+       <canvas id="map"></canvas>
+       <script>
+        async function draw() {
+            let dpr = window.devicePixelRatio
+            let canvas = document.getElementById("map")
+            canvas.width = 800 * dpr
+            canvas.height = 600 * dpr
+            let ctx = canvas.getContext('2d')
+            ctx.scale(dpr,dpr)
+            let map = new protomapsL.Static({url:"https://api.protomaps.com/tiles/v3/{z}/{x}/{y}.mvt?key=1003762824b9687f", theme: "light"})
+            let {project} = await map.drawContext(ctx,800,600,{y:22.1777,x:114.1635},10)
+            let highlight = project({y:22.2777,x:114.1635})
+            ctx.globalAlpha = 0.2
+            ctx.strokeRect(highlight.x-20,highlight.y-10,40,20)
+            ctx.beginPath()
+            ctx.moveTo(highlight.x-20,highlight.y-10)
+            ctx.lineTo(highlight.x+20,highlight.y-10)
+            ctx.lineTo(280+500,330)
+            ctx.lineTo(280,330)
+            ctx.closePath()
+            ctx.fill()
+            ctx.translate(280,330)
+            await map.drawContext(ctx,500,250,{y:22.2777,x:114.1635},14)
+            ctx.strokeRect(0,0,500,250)
+            canvas.style.opacity = 1
+        }
+        draw()
+       </script>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "es6",
+    "lib": ["es2020", "dom"],
+    "strict": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@mapbox/unitbezier": ["./src/types/unitbezier.d.ts"]
+    },
+    "types": ["node", "@types/css-font-loading-module"]
+  },
+  "include": ["src/**/*"]
+}
